@@ -1,0 +1,97 @@
+package com.iapi.drools.rules;
+
+import java.util.Map
+
+dialect  "mvel"
+
+// 直接过境预警
+rule "ZJGJYJ_1_ENTER"
+//    agenda-group "enter_rule"
+    salience 10
+//    auto-focus true
+    when
+    /* {C8} AND {C1} AND {C5} AND {C10} AND {C11} AND {C12} AND
+    (
+        ({C2} AND {C3} AND {C4} AND {C9})
+        OR ({C6} AND {C7} AND {C4})
+     ) */
+        $map: Map(
+            $map.get("GJ") != "CHN" // C8 国籍不等于CHN
+           && $map.get("ZZXJD") != "CHN" // C1 最终下机地国家不等于CHN
+           && $map.get("SCLH")=="2" // C5 是否首次来华等于2
+           && toInt($map.get("NL"))>10 // C10 年龄大于10
+           && $map.get("SJDFD")=="0"  // C11 初始上机地是否为发达国家等于0
+           && $map.get("ZJLX")!="11" // C12 证件类型不等于11
+           && $map.get("ZDSJ")=="1" // C4 是否重点下机地等于1
+           && (
+               (
+                    $map.get("FGJJC")=="1" // C2 从非国籍国机场登机等于1
+                    && $map.get("ZDSJ")=="1" // C3 是否重点上机地等于1
+                    && $map.get("ZZHG")=="0" // C9 是否中转返回本国等于0
+               )
+            ||(
+                    $map.get("FGJJC")=="0" // C6 从非国籍国机场登机等于0
+                    && ["IRN","AFG","LKA","VNM","IND","SYR","COG","EGY"
+                    ,"BGD","MYS","SGP","PAK","GEO","IDN","NPL","MOZ","LSO"] contains $map.get("GJ") //C7 国籍属于 IRN,AFG,LKA,VNM,IND,SYR,COG,EGY,BGD,MYS,SGP,PAK,GEO,IDN,NPL,MOZ,LSO
+            )
+           )
+        )
+    then
+//        System.out.println("请李志维确认一下 C10、C9 指标值和指标字段 ");
+        drools.setFocus("zjgjyj_danger");
+end
+
+
+// 疑似过境偷渡
+rule "ZJGJYJ_1_YSGJTD"
+    agenda-group "zjgjyj_danger"
+    salience 1
+    when
+    /* {C8} AND {C1} AND {C5} AND
+        (
+            (
+                {C2} AND {C3} AND {C4} AND {C9}
+                )
+            OR (
+                {C6} AND {C7} AND {C4}
+                )
+        ) */
+        $map: Map(
+            $map.get("GJ") != "CHN" // C8 国籍不等于CHN
+           && $map.get("ZZXJD") != "CHN" // C1 最终下机地国家不等于CHN
+           && $map.get("SCLH")=="2" // C5 是否首次来华等于2
+           && $map.get("ZDSJ")=="1" // C4 是否重点下机地等于1
+           && (
+               (
+                    $map.get("FGJJC")=="1" // C2 从非国籍国机场登机等于1
+                    && $map.get("ZDSJ")=="1" // C3 是否重点上机地等于1
+                    && $map.get("ZZHG")=="0" // C9 是否中转返回本国等于0
+               )
+            ||(
+                    $map.get("FGJJC")=="0" // C6 从非国籍国机场登机等于0
+                    && ["IRN","AFG","LKA","VNM","IND","SYR","COG","EGY","BGD"
+                    ,"MYS","SGP","PAK","GEO","IDN","NPL","MOZ","LSO"] contains $map.get("GJ") //C7 国籍属于 IRN,AFG,LKA,VNM,IND,SYR,COG,EGY,BGD,MYS,SGP,PAK,GEO,IDN,NPL,MOZ,LSO
+            )
+           )
+        )
+    then
+//        System.out.println("请李志维确认一下 C10、C9 指标值和指标字段 ");
+        System.out.println("---*--疑似过境偷渡--*---");
+
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

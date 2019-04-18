@@ -1,0 +1,95 @@
+package com.iapi.drools.rules;
+import java.util.Map
+
+dialect  "mvel"
+
+// 借道内地偷渡人员(与PNR指标结合)
+rule "JDNDTDRY_1_ENTER"
+    salience 10
+//    agenda-group "enter_rule"
+//    auto-focus true
+
+    when
+        // {C1} AND {C2} AND {C3} AND {C4} AND {C5} AND {C6}
+        $map: Map(
+            $map.get("SJDFD")=="0" //C1 上机地是否为发达国家等于0
+            ,$map.get("CRBZ")=="2" // C2 出入境类型为2
+            ,$map.get("FDGJ")=="1" // C3 下机地是否为发达国家等于1
+            ,$map.get("SCLH")=="1" // C4 首次来华
+            ,["IRN","AFG","LKA","VNM","IND","SYR","EGY","BGD","MYS","PAK","IDN","NPL"] contains $map.get("GJ") // C5 国籍属于IRN,AFG,LKA,VNM,IND,SYR,EGY,BGD,MYS,PAK,IDN,NPL
+            ,$map.get("ZJLX")!="11" // C6 证件类型不等于11
+        )
+    then
+//        System.out.println("请李志维同学确认一下C1 、C2、C3 的指标字段名");
+        System.out.println("-----------toudu5_8.drl--------------");
+        drools.setFocus("jdndtdry_danger");
+end
+
+// 疑似借道偷渡高风险
+rule "JDNDTDRY_1_YSJDTDGFX"
+    salience 1
+    agenda-group "jdndtdry_danger"
+
+    when
+        /* {C1} AND {C2} AND {C3} AND {C4} AND {C5} AND {C6} AND {C7} AND {C8} AND
+        （{C9} OR {C10}）
+        AND {C11}
+        */
+        $map: Map(
+                    $map.get("SJDFD")=="0" //C1 入境时上机地是否为发达国家等于0
+                    ,$map.get("CRBZ")=="2" // C2 出入境类型为2
+                    ,$map.get("FDGJ")=="1" // C3 出境时下机地是否为发达国家等于1
+                    ,$map.get("SCLH")=="1" // C4 首次来华
+                    ,["IRN","AFG","LKA","VNM","IND","SYR","COG","EGY","BGD","MYS","SGP","PAK","GEO","IDN","NPL","MOZ","LSO"] contains $map.get("GJ") // C5 国籍属于IRN,AFG,LKA,VNM,IND,SYR,EGY,BGD,MYS,PAK,IDN,NPL
+                    ,toInt($map.get("NL"))> 10  // C6 年龄大于10
+                    ,$map.get("ZJLX")!="11" // C7 证件类型不等于11
+                    ,$map.get("CLKH").equals("") // C8 常旅客编号为空
+                    ,(!$map.get("LKSL").equals("")  && Integer.parseInt($map.get("LKSL"))>2) // C11 旅客行李数量大于2
+                    ,(
+                         $map.get("FKFS")=="1" // C9 付款方式等于现金
+                         ||   $map.get("FKGJ")!="1" // C10 付款人国家代码不等于旅客国籍国
+                    )
+                )
+    then
+//        System.out.println("请李志维确认上面c2，c3，c9，c10 指标和字段值 ");
+        System.out.println("预警指标触发  ---*--疑似借道偷渡高风险--*--- ");
+end
+
+
+// 疑似借道偷渡
+rule "JDNDTDRY_1_YSJDTD"
+    salience 1
+    agenda-group "jdndtdry_danger"
+
+    when
+        /* {C1} AND {C2} AND {C3} AND {C4} AND {C5} AND {C6} AND {C7}
+        */
+        $map: Map(
+                    $map.get("SJDFD")=="0" //C1 入境时上机地是否为发达国家等于0
+                    ,$map.get("CRBZ")=="2" // C2 出入境类型为2
+                    ,$map.get("FDGJ")=="1" // C3 出境时下机地是否为发达国家等于1
+                    ,$map.get("SCLH")=="1" // C4 首次来华
+                    ,["IRN","AFG","LKA","VNM","IND","SYR","COG","EGY","BGD","MYS","SGP","PAK","GEO","IDN","NPL","MOZ","LSO"] contains $map.get("GJ") // C5 国籍属于IRN,AFG,LKA,VNM,IND,SYR,EGY,BGD,MYS,PAK,IDN,NPL
+                    ,toInt($map.get("NL"))>10  // C6 年龄大于10
+                    ,$map.get("ZJLX")!="11" // C7 证件类型不等于11
+                )
+    then
+//        System.out.println("请李志维确认上面c2，c3指标和字段值 ");
+        System.out.println("预警指标触发  ---*--疑似借道偷渡 --*--- ");
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

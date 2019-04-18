@@ -1,0 +1,119 @@
+package com.iapi.drools.rules;
+import java.util.Map
+
+dialect  "mvel"
+
+// 疑似变换身份人员
+rule "YSBHSFRY_1_ENTER"
+    salience 10
+//    auto-focus true
+//    agenda-group "enter_rule"
+
+    when
+        $map: Map(
+            /*
+                {C1} AND {C4} AND {C5} AND
+                    (
+                        {C2}
+                        OR
+                        ({C3} AND {C6})
+                        OR
+                        ({C9} AND {C10} AND {C6})
+                     )
+            */
+            ["UGA","MOZ","VNM","GIN","CIV","MMR","SLE","TJK","NER","BEN"
+            ,"GMB","HTI","NGA","CMR","ZAF","LBR","GNB","MLI","LSO","GTM"
+            ,"IDN","COD","SEN","PHL","MYS","GHA","IRQ","TUR","IND","HUN"
+            ,"ECU","AGO","BLZ","KNA","NAM"] contains $map.get("GJ") //C1 国籍属于UGA,MOZ,VNM,GIN,CIV,MMR,SLE,TJK,NER,BEN,GMB,HTI,NGA,CMR,ZAF,LBR,GNB,MLI,LSO,GTM,IDN,COD,SEN,PHL,MYS,GHA,IRQ,TUR,IND,HUN,ECU,AGO,BLZ,KNA,NAM
+            , $map.get("ZZXJD")=="CHN" //C4 最终下机地国家等于CHN
+            , $map.get("ZJLX")!="11" //C5 证件类型不等于11
+            ,(
+                $map.get("QFGJ")=="1" // C2 外国人签证签发单位不等于旅客国籍国等于1
+                ||(
+                $map.get("BGDJ")=="0" // C3 是否曾在本国上机等于0
+                &&$map.get("FGJJC")=="1" // C6 从非国籍国机场登机等于1
+                )
+                ||(
+                 ["UGA","MOZ","LBR","PHL","IDN"] contains $map.get("GJ") //C9 国籍属于UGA,MOZ,LBR,PHL,IDN
+                 &&$map.get("BGDJ")!="1" //C10 是否曾在本国上机不等于1
+                 &&$map.get("FGJJC")=="1" //C6 从非国籍国机场登机等于1
+                )
+            )
+        )
+    then
+//        System.out.println(" 请李志维确认一下 C2 的指标值 c3 的字段，c10的指标值");
+        System.out.println("触发进入规则 ---*--疑似变换身份人员--*--- ");
+        drools.setFocus("ysbhsfry_danger");
+end
+
+// 过滤规则
+rule YSBHSFRY_1_FILTER
+    salience 2
+    agenda-group "ysbhsfry_danger"
+
+    when
+         $map: Map(
+            /*({C7} AND {C8})
+            OR
+             ({C11} AND {C12})
+            */
+            (
+              ["PHL","MYS","IDN","VNM","MMR","LKA"] contains  $map.get("GJ") // C7 国籍属于PHL,MYS,IDN,VNM,MMR,IND,LKA
+                || $map.get("QZQFW")=="SGPA" // C8 签发单位等于SGPA
+            )||
+                (  $map.get("FGJJC")=="0" // C11 从非国籍国机场登机等于0
+                ||
+                 ["PHL","IDN","VNM"] contains  $map.get("GJ") // C12 国籍属于PHL,IDN,VNM
+             )
+         )
+    then
+        System.out.println("过滤规则匹配 删除对象");
+        delete($map);
+end
+
+
+// 未在本国申领签证
+rule YSBHSFRY_1_WZBGSLQZ
+    salience 1
+    agenda-group "ysbhsfry_danger"
+
+    when
+         $map: Map(
+                $map.get("QFGJ")=="1"// C1 外国人签证签发单位不等于国籍国等于1
+         )
+    then
+        System.out.println("规则匹配 ---*--未在本国申领签证--*----");
+
+end
+
+
+// 未在本国登机
+rule YSBHSFRY_1_WZBGDJ
+    salience 1
+    agenda-group "ysbhsfry_danger"
+
+    when
+         $map: Map(
+                $map.get("FGJJC")=="1"// C2否从非国籍国机场登机等于1
+         )
+    then
+//        System.out.println("规则匹配 ---*--未在本国登机--*--- 请李志维确认该字段和指标值");
+
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,78 @@
+package com.iapi.drools.rules;
+import java.util.regex.Pattern
+import java.util.regex.Matcher
+import java.net.URL
+import java.net.HttpURLConnection
+import java.io.InputStream
+import java.io.InputStreamReader
+import java.io.BufferedReader
+import java.nio.charset.StandardCharsets
+
+
+dialect  "mvel"
+
+function String getApi(String s) {
+        HttpURLConnection conn = null;
+        BufferedReader reader = null;
+        String rs = null;
+        try{
+        StringBuffer sb = new StringBuffer();
+            URL url = new URL(s);
+            conn = (HttpURLConnection) url.openConnection();;
+            conn.connect();
+            InputStream is = conn.getInputStream();
+             reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
+                        String strRead = null;
+                        while ((strRead = reader.readLine()) != null) {
+                            sb.append(strRead);
+                        }
+                     rs = sb.toString();
+        }catch (Exception ignored){
+
+        }finally {
+                     if (reader != null) {
+                         reader.close();
+                     }
+                     if (conn != null) {
+                         conn.disconnect();
+                     }
+                 }
+         System.out.println(" url= " + s +  rs);
+         return "23232";
+}
+
+/**
+字符串转int
+*/
+function int toInt(Object obj){
+    int result;
+    if(obj!=null&&!"".equals(obj)){
+        String regEx="[^0-9]";
+        String str = String.valueOf(obj);
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(str);
+        String rs =  m.replaceAll("").trim();
+        result =  Integer.parseInt(rs);
+    }else {
+        System.out.println("需要转换的对象为空 返回 数字 0 ！");
+        result =  0;
+    }
+//     System.out.println("result = "+result);
+    return result;
+}
+
+
+function boolean compareStrs(String[]  strs,String str2){
+      for (int i = 0; i< strs.length ;i++) {
+        if(str2.contains(strs[i])){
+           return true;
+          }
+      }
+     return false;
+}
+
+
+
+
+
+

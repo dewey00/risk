@@ -1,0 +1,48 @@
+package com.iapi.drools.rules;
+import java.util.Map
+dialect  "mvel"
+
+// 五重点国 {C1} AND {C2} AND {C3} AND {C4} AND {C5} AND {C6}
+rule "WZDG_1_ENTER"
+    salience 10
+//    agenda-group "enter_rule"
+//    auto-focus true
+    when
+        $map: Map(
+            ["AFG","PAK","TUR","SYR","IRQ"] contains $map.get("GJ")  // C1 国籍属于阿富汗、巴基斯坦、土耳其、叙利亚、伊拉克
+            && (toInt($map.get("NL"))(> 16 && < 60) ) // C2 年龄大于16小于60
+            && $map.get("QZML")=="1"// C3 签证类型为L和M
+            && $map.get("SCLH")=="1"  // C4 首次来华   -- 自己定
+            && ["MAC","HKG"] contains  $map.get("SJD")  // C5 上机地为东南亚和香港、澳门
+            && $map.get("ZJLX") !="11" // C6 证件类型不等于11
+        )
+    then
+//        System.out.println("请李志维同学确定一下 C3 、C4 、C5 指标字段和指标值,同时确定一下东南亚的 代码 && [\"MAC\",\"HKG\"] contains  $map.get(\"SJD\")  ");
+        drools.setFocus("wzdg_danger");
+end
+
+// 涉恐重点五国 {C1} AND {C2} AND {C3} AND {C4} AND {C5} AND {C6}
+rule "WZDG_1_SKZDWG"
+    salience 1
+    agenda-group "wzdg_danger"
+    when
+    // 上面条件都符合了，激活规则之后，下面都满足，所以直接是true就行
+        eval(true)
+    then
+       System.out.println("涉恐重点五国");
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

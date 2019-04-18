@@ -1,0 +1,254 @@
+  {
+    "indexItems": [
+      {
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content": " if (\"CHN\" == pm.nationality) {\n        for ( m in imm) {\n            if (\"2\" == m.get(\"in_out_flag\")) {\n                return 0;\n            }\n        }\n    }\n    return \"1\";",
+        "item": "CHNSCCJ"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content": "  StringBuilder stringBuilder = new StringBuilder(); if (!riskGj.isEmpty()) {\n        for (Map<String, Object> map : riskGj) {\n            if (\"7E250BB178D440BEE0537A1210AC57A2\" == map.dictionaries_code) {\n                stringBuilder.append(map.particulars_name?:\"\" + \",\");\n            }\n        }\n    };\n    StringBuilder result = new StringBuilder();\n    for (HashMap map : imm) {\n        def immDate = (map.imm_date?:\"\") as long;\n        if (immDate > 20170000) {\n            String code = map.to_country_code?:\"\";\n            String deCountry = stringBuilder.toString();\n            if (deCountry.contains(code)) {\n                result.append(code + \"、\");\n            }\n        }\n    }; \n    return result;",
+        "item": "FDCRJ17"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content": " long timeStamp = System.currentTimeMillis();\n    java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(\"yyyyMMdd\");\n    String now = sdf.format(new Date(Long.parseLong(String.valueOf(timeStamp - 259200000))));\n    if (imm.isEmpty()) {\n        return 0;\n    } else {\n        for (HashMap m : imm) {\n            def immDate = m.get(\"imm_date\");\n            if (immDate > now) {\n                return 1\n            }\n        }\n    }\n    return 0;",
+        "item": "CRJJL3FDCRJ17"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content": "  def destination = pm.destination ?: \"\";\n    def cityTo = pm.cityto ?: \"\";\n    if (destination == \"bj\" || cityTo == \"bj\") {\n        if (imm.isEmpty()) {\n            return 1;\n        }\n        for (HashMap map : imm) {\n            if (map.imm_port_code == 'bj') {\n                return 0;\n            }\n        };\n    };\n    return 0;",
+        "item": "XJDCA"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content": "def destination = pm.destination ?: \"\";\n    if (!airport.isEmpty()) {\n        for (HashMap map : airport) {\n            if (destination == map.airport_code) {\n                return map.country_code\n            }\n        }\n    }\n    return \"\";",
+        "item": "ZZXJC"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content": " def cityfrom = pm.cityfrom ?: \"\";\n    if (!airport.isEmpty()) {\n        for (map in airport) {\n            if (cityfrom == map.airport_code) {\n                return map.country_code;\n            }\n        }\n    }\n    return \"\";",
+        "item": "SJDC"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content": " def cityTo = pm.cityto;\n    if (!airport.isEmpty()) {\n        for (map in airport) {\n            if (cityTo == map.airport_code) {\n                return map.country_code\n            }\n        }\n    }\n    return \"\";",
+        "item": "XJDC"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content": " def origin = pm.origin;\n    if (!airport.isEmpty()) {\n        for (HashMap map : airport) {\n            if (origin == map.airport_code) {\n                return map.country_code;\n            }\n        }\n    }\n    return \"\";",
+        "item": "CSJDC"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content": "  return  pm.gender?:\"\";",
+        "item": "XB"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content": "return pm.birthday ?: \"\";",
+        "item": "CSRQ"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content":  "def birthDay = pm.birthday;\n    Calendar calendar = Calendar.getInstance();\n    if (calendar.before(birthDay)) {\n        return 0;\n    }\n    int yearNow = calendar.get(Calendar.YEAR);\n    int monthNow = calendar.get(Calendar.MONTH);\n    int dayOfMonthNow = calendar.get(Calendar.DAY_OF_MONTH);\n    java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat(\"yyyyMMdd\");\n    Date newdate = formatter.parse(birthDay);\n    calendar.setTime(newdate);\n\n    int yearBirth = calendar.get(Calendar.YEAR);\n    int monthBirth = calendar.get(Calendar.MONTH);\n    int dayOfMonthBirth = calendar.get(Calendar.DAY_OF_MONTH);\n    int age = yearNow - yearBirth;\n    if (monthNow <= monthBirth) {\n        if (monthNow == monthBirth) {\n            if (dayOfMonthNow < dayOfMonthBirth) {\n                age--;\n            };\n        } else {\n            age--;\n        };\n    }\n    if (age >= 0) {\n        return age;\n    } else {\n        return \"\";\n    }",
+        "item": "NL"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content":  " if (pm.nationality == \"CHN\") {\n        def certChnIssueJson = ps.max { a -> (a.issuing_date ?: -1) as long };\n        if(certChnIssueJson){\n            return certChnIssueJson.pers_nation?:\"\";\n        }\n    }\n    return \"\";",
+        "item": "ZGMZ"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content":  " return pm.nationality?:\"\";",
+        "item": "GJ"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content":  " if (pm.nationality == \"CHN\") {\n        List<HashMap> ss = ps.sort { b, a -> ((a.issuing_date ?: -1) as long) <=> ((b.issuing_date ?: -1) as long) };\n        def certChnIssueJson = ss.get(0);\n        return certChnIssueJson.pers_card_id;\n    }\n    return \"\";",
+        "item": "CHNID"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content":  "if (pm.nationality == \"CHN\") {\n        if (!ps.isEmpty()) {\n            List<HashMap> ss = ps.sort { b, a -> ((a.issuing_date ?: -1) as long) <=> ((b.issuing_date ?: -1) as long) };\n            def perInfo = ss.get(0);\n            def rsdtRegionCode = perInfo.rsdt_region_code ?: \"\";\n            if (rsdtRegionCode.length() > 2) {\n                return rsdtRegionCode.substring(0, 2)\n            }\n        }\n    }\n    return \"\";",
+        "item": "HJD"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content":  " def nationality = pm.nationality;\n    def qCHN = \"CHN\";\n    def qTWN = \"TWN\";\n    def qHKG = \"HKG\";\n    def qMAC = \"MAC\";\n    if (qCHN != nationality && qTWN != nationality && qHKG != nationality && qMAC != nationality) {\n        if (!ps.isEmpty()) {\n            def perInfo = ps.max {  a -> (a.visa_date ?: -1) as long};\n            if(perInfo){\n                return perInfo.visa_assign_dept?:\"\";\n            }\n        }\n    }\n    return \"\";",
+        "item": "QZQFW"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content":  " def nationality = pm.nationality;\n    def qCHN = \"CHN\";\n    def qTWN = \"TWN\";\n    def qHKG = \"HKG\";\n    def qMAC = \"MAC\";\n    if (qCHN != nationality && qTWN != nationality && qHKG != nationality && qMAC != nationality) {\n        if (!ps.isEmpty()) {\n            def perInfo = ps.max { a -> (a.visa_date ?: -1) as long };\n            return perInfo.visa_type ?: \"\";\n        }\n    }\n    return \"\";",
+        "item": "QZZL"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content":  " def flighttype = pm.flighttype ?: \"\";\n    def wordToNum = [\"I\": \"1\", \"O\": \"2\"];\n    if (flighttype != \"\") {\n        return wordToNum[flighttype.toUpperCase()] ?: \"\";\n    }\n    return \"\";",
+        "item": "CRBZ"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content":  "def flighttype = pm.flighttype ?: \"\";\n    def ss = flighttype.toUpperCase()\n    java.text.SimpleDateFormat format = new java.text.SimpleDateFormat(\"yyyyMMdd\");\n    def date=\"\";\n    if (ss == \"I\") {\n        date = pm.get(\"arrivdate\")?:\"\";\n    } else if (ss == \"O\") {\n        date =  pm.get(\"departdate\")?:\"\";\n    }  \n    if(date !=null && date!=\"\" && date instanceof Date){\n       return format.format(date)\n    }else {\n        return date;\n    }",
+        "item": "HBSJ"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content":  " def flighttype = pm.flighttype ?: \"\";\n    def ss = flighttype.toUpperCase()\n    if (ss == \"I\") {\n        def cityfrom = pm.cityfrom;\n        if (!airport.isEmpty()) {\n            for (map in airport) {\n                if (cityfrom == map.airport_code) {\n                    return map.country_code\n                }\n            }\n        }\n    } else if (ss == \"O\") {\n        def cityTo = pm.cityto;\n        for (map in airport) {\n            if (cityTo == map.airport_code) {\n                return map.country_code\n            }\n        }\n    }\n    return \"\";",
+        "item": "WLG"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content":  " return pm.origin?:\"\";",
+        "item": "CSJD"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content":  "return pm.destination ?: \"\";",
+        "item": "ZZXJD"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content":  " return pm.cityfrom ?: \"\";",
+        "item": "SJD"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content":  " return pm.cityto ?: \"\";",
+        "item": "XJD"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content":  " def city = pm.cityfrom ?: \"\";\n    if (!riskGj.isEmpty()) {\n        for (map in riskGj) {\n            if (\"F63ADC307A9146C2B289CA9D43E889CD\" == map.dictionaries_code) {\n                if (city == map.particulars_name) {\n                    return \"1\";\n                }\n            }\n        }\n        return \"0\";\n    }\n    return \"\";",
+        "item": "ZDSJ"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content":  "  def city = pm.cityTo ?: \"\";\n    if (!riskGj.isEmpty()) {\n        for (map in riskGj) {\n            if (\"F63ADC307A9146C2B289CA9D43E889CD\" == map.dictionaries_code) {\n                if (city == map.particulars_name) {\n                    return \"1\";\n                }\n            }\n        }\n        return \"0\";\n    }\n    return \"\";",
+        "item": "ZDXJ"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content":  "  String personId = pm.pers_id ?: \"\";\n    if (pm.get(\"nationality\") == \"CHN\") {\n        List<HashMap> result = search.queryByMatchPhrase(\"dcap_f_per_rec_emph_persons\", \"pers_id\", personId);\n        if (result.isEmpty()) {\n            return \"0\";\n        } else {\n            return \"1\";\n        }\n    }\n    return \"\";",
+        "item": "ZDGZ"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content":  " String personId = pm.pers_id ?: \"\";\n    if (pm.nationality != \"CHN\") {\n        List<HashMap> result = search.queryByMatchPhrase(\"dcap_f_terr_rec_fgn_uygur\", \"pers_id\", personId);\n        if (result.isEmpty()) {\n            return \"0\";\n        } else {\n            return \"1\";\n        }\n    }\n    return \"\";",
+        "item": "WJWZ"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content":  " String firstname = pm.firstname ?: \"\";\n    String familyname = pm.familyname ?: \"\";\n    String middlename = pm.middlename ?: \"\";\n    String name =familyname+\" \"+middlename+\" \"+firstname\n    def names = name.split(\" \");\n    if (!riskGj.isEmpty()) {\n        for (x in names) {\n            for (map in riskGj) {\n                if (\"35A07C29B7BD44788300CF056D869E2A\" == map.dictionaries_code) {\n                    if (x == map.particulars_name) {\n                        return \"1\";\n                    }\n                }\n            }\n        }\n        return \"0\";\n    }\n    return \"\";",
+        "item": "XJXM"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content":  " if (pm.nationality != \"CHN\") {\n        String firstname = pm.firstname ?: \"\";\n        String familyname = pm.familyname ?: \"\";\n        String middlename = pm.middlename ?: \"\";\n        String name =familyname+\" \"+middlename+\" \"+firstname\n        def names = name.split(\" \");\n        if (!riskGj.isEmpty()) {\n            for (x in names) {\n                for (map in riskGj) {\n                    if (\"9EB6AD8BA21543C6A0BA915E14B882B8\" == map.dictionaries_code) {\n                        if (x == map.particulars_name) {\n                            return \"1\";\n                        }\n                    }\n                }\n            }\n            return \"0\";\n        }\n    }\n    return \"\";",
+        "item": "WHXS"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content":  "def origin = pm.origin;\n    def countryCode = \"\";\n    if (!airport.isEmpty()) {\n        for (map in airport) {\n            if (origin == map.airport_code) {\n                countryCode = map.country_code;\n                break;\n            }\n        }\n    }\n    if (!riskGj.isEmpty()) {\n        for (map in riskGj) {\n            if (\"7E250BB178D440BEE0537A1210AC57A2\" == map.dictionaries_code) {\n                if (countryCode == map.particulars_name) {\n                    return \"1\";\n                }\n            }\n        }\n        return \"0\";\n    }\n    return \"\";",
+        "item": "SJDFD"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content":  " def destination = pm.destination;\n    if (imm.isEmpty()) {\n        return \"1\";\n    } else {\n        def koan = [:];\n        for (air in airport) {\n            if (destination == air.airport_code) {\n                koan = air\n            }\n            break;\n        }\n        for (i in imm) {\n            if (i.imm_port_code == koan.imm_port_code) {\n                return \"0\"\n            }\n        }\n    }\n    return \"\";",
+        "item": "SCLC"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content":  "def city = pm.cityfrom ?: \"\";\n    if (!riskGj.isEmpty()) {\n        for (map in riskGj) {\n            if (\"F63ADC307A9146C2B289CA9D43E889CD\" == map.dictionaries_code) {\n                if (city == map.particulars_name) {\n                    if (!airport.isEmpty()) {\n                        for (c in airport) {\n                            if (city == c.airport_code) {\n                                return c.country_code\n                            }\n                        }\n                    }\n                }\n            }\n        }\n    }\n    return \"\";",
+        "item": "ZDSJC"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content":  " if (pm.nationality == \"CHN\") {\n        def p = (pm.passportno ?: \"\").toUpperCase() =~ /([E,G]\\d{8})|(EA\\d{7})/\n        if (p.find()) {\n            return \"1\"\n        } else {\n            return \"0\"\n        }\n    }\n    return \"\";",
+        "item": "PSPORT"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content":  " String personId = pm.pers_id ?: \"\";\n    if (\"CHN\" != pm.nationality) {\n        List<HashMap> result = search.queryByMatchPhrase(\"dcap_f_per_fgn_resident_reg\", \"pers_id\", personId);\n        if (result.isEmpty()) {\n            return \"0\";\n        } else {\n            return \"1\";\n        }\n    }\n    return \"\";",
+        "item": "OFTENLIVE"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content":  " def firstname = (pm.firstname ?: \"\").trim();\n    def familyname = (pm.familyname ?: \"\").trim();\n    def middlename = (pm.middlename ?: \"\").trim();\n    def name = (firstname+\" \"+familyname+\" \"+middlename).trim()\n    //  查询白名单\n    println(\"==============================name============\"+name)\n    org.elasticsearch.index.query.QueryBuilder queryHmd = org.elasticsearch.index.query.QueryBuilders.boolQuery()\n            .must(org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery(\"type_code\", \"82362CCD15562B55E0537A1210AC4C46\"))\n            .must(org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery(\"familyname\", name));\n    // 查询白名单\n    List<HashMap> md = search.getListResultsByQueryBuilder(queryHmd, \"tb_risk_namelist\");\n    if (md.isEmpty()) {\n        return \"0\"\n    } else {\n        return \"1\"\n    }",
+        "item": "BMD"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content":  " String personId = pm.pers_id ?: \"\";\n    List<HashMap> result = search.queryByMatchPhrase(\"dcap_f_evt_psr_illegal\", \"pers_id\", personId);\n    if (result.isEmpty()) {\n        return \"0\";\n    } else {\n        return \"1\";\n    }",
+        "item": "ILLEGAL"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content":  " String personId = pm.pers_id ?: \"\";\n    List<HashMap> result = search.queryByMatchPhrase(\"dcap_f_per_pred_api_psr_info\", \"pers_id\", personId);\n    if (!result.isEmpty()) {\n        return \"1\";\n    } else {\n        String passPortNo = pm.passPortNo ?: \"\";\n        String nationality = pm.nationality ?: \"\";\n        org.elasticsearch.index.query.QueryBuilder query = org.elasticsearch.index.query.QueryBuilders.boolQuery()\n                .must(org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery(\"type_code\", passPortNo))\n                .must(org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery(\"familyname\", nationality));\n        List<HashMap> r = search.getListResultsByQueryBuilder(query, \"tb_iapi\");\n        if (r.isEmpty()) {\n            return \"1\";\n        } else {\n            return \"0\";\n        }\n    }",
+        "item": "IAPIIF"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content":  "def destination = pm.destination ?: \"\";\n    def cityTo = pm.cityto ?: \"\";\n    if (destination == \"PEK\" || cityTo == \"PEK\") {\n        if (imm.isEmpty()) {\n            return \"1\";\n        }\n        for (map in imm) {\n            if (map.imm_port_code == 'PEK') {\n                return \"0\";\n            }\n        };\n        return \"1\"\n    };\n    return \"\";",
+        "item": "SCLJ"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content":  " org.elasticsearch.index.query.QueryBuilder pnrtravelertktBuilder = org.elasticsearch.index.query.QueryBuilders.boolQuery()\n            .must(org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery(\"nationality\", pm.nationality ?: \"\"))\n            .must(org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery(\"cardnum\", pm.passPortNo ?: \"\"));\n    def tbPnrTravelerTkt = search.queryScroll(pnrtravelertktBuilder, \"tb_pnr_traveler_tkt\");\n    if (!tbPnrTravelerTkt.isEmpty()) {\n        def nList = tbPnrTravelerTkt.sort { b, a -> ((a.createtime ?: -1) as long) <=> ((b.createtime ?: -1) as long) };\n        def map = nList.get(0);\n        org.elasticsearch.index.query.QueryBuilder tbPnrTkt = org.elasticsearch.index.query.QueryBuilders.boolQuery()\n                .must(org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery(\"tid\", map.tid ?: \"\"))\n                .must(org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery(\"ticket_document_number\", map.tktnumber ?: \"\"));\n\n        List<HashMap> tbPnrTkts = search.getListResultsByQueryBuilder(tbPnrTkt, \"tb_pnr_tkt\");\n        if (!tbPnrTkts.isEmpty()) {\n            List<HashMap> nr = tbPnrTkts.sort { b, a -> ((a.createtime ?: -1) as long) <=> ((b.createtime ?: -1) as long) };\n            def ma = nr.get(0);\n            org.elasticsearch.index.query.QueryBuilder queryBuilder = org.elasticsearch.index.query.QueryBuilders.boolQuery()\n                    .must(org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery(\"tid\", ma.tid ?: \"\"))\n                    .must(org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery(\"gr1serial\", ma.get(\"gr1serial\")))\n                    .must(org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery(\"gr2serial\", ma.get(\"gr2serial\")))\n                    .must(org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery(\"gr3serial\", ma.get(\"gr3serial\")));\n            List<HashMap> tbs = search.getListResultsByQueryBuilder(queryBuilder, \"tb_pnr_fop\");\n            if (!tbs.isEmpty()) {\n                //排序\n                List<HashMap> nRe = tbs.sort { b, a -> ((a.createtime ?: -1) as long) <=> ((b.createtime ?: -1) as long) };\n                HashMap n = nRe.get(0);\n                String fkfs = n.payment_type ?: \"\";\n                if (fkfs.toLowerCase() == \"cc\") {\n                    return \"1\";\n                } else {\n                    return \"0\";\n                }\n            }\n        }\n    }\n    return \"\";",
+        "item": "FKXJ"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content":  "org.elasticsearch.index.query.QueryBuilder pnrtravelertktBuilder = org.elasticsearch.index.query.QueryBuilders.boolQuery()\n            .must(org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery(\"nationality\", pm.nationality ?: \"\"))\n            .must(org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery(\"cardnum\", pm.passPortNo ?: \"\"));\n    def tbPnrTravelerTkt = search.queryScroll(pnrtravelertktBuilder, \"tb_pnr_traveler_tkt\");\n    if (!tbPnrTravelerTkt.isEmpty()) {\n        def map = tbPnrTravelerTkt.max { a -> ((a.createtime ?: -1) as long) };\n        org.elasticsearch.index.query.QueryBuilder tbPnrTkt = org.elasticsearch.index.query.QueryBuilders.boolQuery()\n                .must(org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery(\"tid\", map.tid ?: \"\"))\n                .must(org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery(\"ticket_document_number\", map.tktnumber ?: \"\"));\n        List<HashMap> tbPnrTkts = search.getListResultsByQueryBuilder(tbPnrTkt, \"tb_pnr_tkt\");\n        if (!tbPnrTkts.isEmpty()) {\n            def ma = tbPnrTkts.max { a -> ((a.createtime ?: -1) as long) };\n            if(ma){\n                org.elasticsearch.index.query.QueryBuilder queryBuilder = org.elasticsearch.index.query.QueryBuilders.boolQuery()\n                        .must(org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery(\"tid\", ma.tid ?: \"\"))\n                        .must(org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery(\"gr1serial\", ma.gr1serial ?: \"\"))\n                        .must(org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery(\"gr2serial\", ma.gr2serial ?: \"\"))\n                        .must(org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery(\"gr3serial\", ma.gr3serial ?: \"\"));\n                List<HashMap> tbs = search.getListResultsByQueryBuilder(queryBuilder, \"tb_pnr_fop\");\n                if (!tbs.isEmpty()) {\n                    def n = tbs.max { a -> ((a.createtime ?: -1) as long) };\n                    if(n){\n                        return n.payment_type ?:\"\";\n                    }\n                }\n            }\n        }\n    }\n    return \"\";",
+        "item": "FKFS"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content":  " return \"\";",
+        "item": "FKGJ"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content":  "org.elasticsearch.index.query.QueryBuilder pnrtravelertktBuilder = org.elasticsearch.index.query.QueryBuilders.boolQuery()\n            .must(org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery(\"nationality\", pm.nationality ?: \"\"))\n            .must(org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery(\"cardnum\", pm.passPortNo ?: \"\"));\n    def tbPnrTravelerTkt = search.queryScroll(pnrtravelertktBuilder, \"tb_pnr_traveler_tkt\");\n    if (!tbPnrTravelerTkt.isEmpty()) {\n        def map = tbPnrTravelerTkt.max { a -> (a.createtime ?: -1) as long };\n        org.elasticsearch.index.query.QueryBuilder tbPnrFti = org.elasticsearch.index.query.QueryBuilders.boolQuery()\n                .must(org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery(\"tid\", map.tid ?: \"\"))\n                .must(org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery(\"gr2serial\", map.gr2serial ?: \"\"))\n                .must(org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery(\"gr1serial\", map.gr1serial ?: \"\"));\n        List<HashMap> tbPnrFtis = search.getListResultsByQueryBuilder(tbPnrFti, \"tb_pnr_fti\");\n        def ss = tbPnrFtis.max { a -> (a.createtime ?: -1) as long }\n        println(\"==================================================ss =========\"+ss)\n        if(ss){\n            return ss.frequent_t_idenification ?: \"\";\n        }\n    }\n    return \"\";",
+        "item": "CLKH"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content":  "def nationality = pm.nationality;\n    def qCHN = \"CHN\";\n    def qTWN = \"TWN\";\n    def qHKG = \"HKG\";\n    def qMAC = \"MAC\";\n    if (qCHN != nationality && qTWN != nationality && qHKG != nationality && qMAC != nationality) {\n        if (!ps.isEmpty()) {\n            def perInfo = ps.max { a -> (a.visa_date ?: -1) as long };\n            if (nationality != perInfo.visa_assign_dept) {\n                return \"1\"\n            }\n            return \"0\";\n        }\n    }\n    return \"\";",
+        "item": "QFGJ"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content":  " def nationality = pm.nationality;\n    def qCHN = \"CHN\";\n    def qTWN = \"TWN\";\n    def qHKG = \"HKG\";\n    def qMAC = \"MAC\";\n    if (qCHN != nationality && qTWN != nationality && qHKG != nationality && qMAC != nationality) {\n        def ss = fent.find { a -> a.pers_id == pm.pers_id }\n        if (ss) {\n            return \"1\";\n        } else {\n            return \"0\";\n        }\n    }\n    return \"\";",
+        "item": "TDWF"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content":  " org.elasticsearch.index.query.QueryBuilder pnrtravelertktBuilder = org.elasticsearch.index.query.QueryBuilders.boolQuery()\n            .must(org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery(\"nationality\", pm.nationality ?: \"\"))\n            .must(org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery(\"cardnum\", pm.passPortNo ?: \"\"));\n    def tbPnrTravelerTkt = search.queryScroll(pnrtravelertktBuilder, \"tb_pnr_traveler_tkt\");\n    if (!tbPnrTravelerTkt.isEmpty()) {\n        def map = tbPnrTravelerTkt.max { a -> (a.createtime ?: -1) as long };\n        org.elasticsearch.index.query.QueryBuilder tbPnrFti = org.elasticsearch.index.query.QueryBuilders.boolQuery()\n                .must(org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery(\"tid\", map.tid ?: \"\"))\n                .must(org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery(\"gr2serial\", map.gr2serial ?: \"\"))\n                .must(org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery(\"gr1serial\", map.gr1serial ?: \"\"));\n        List<HashMap> tbPnrFtis = search.getListResultsByQueryBuilder(tbPnrFti, \"tb_pnr_fti\");\n        if (!tbPnrFtis.isEmpty()) {\n                return \"1\";\n        } else {\n            return \"0\";\n        }\n    }\n    return \"\";",
+        "item": "JCFR"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content":  "org.elasticsearch.index.query.QueryBuilder pnrtravelertktBuilder = org.elasticsearch.index.query.QueryBuilders.boolQuery()\n            .must(org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery(\"nationality\", pm.nationality ?: \"\"))\n            .must(org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery(\"cardnum\", pm.passPortNo ?: \"\"));\n    def tbPnrTravelerTkt = search.queryScroll(pnrtravelertktBuilder, \"tb_pnr_traveler_tkt\");\n    if (tbPnrTravelerTkt) {\n        def map = tbPnrTravelerTkt.max { a -> (a.createtime ?: -1) as long };\n        if (map) {\n            org.elasticsearch.index.query.QueryBuilder tbPnrTvl = org.elasticsearch.index.query.QueryBuilders.boolQuery()\n                    .must(org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery(\"tid\", map.tid ?: \"\"))\n                    .must(org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery(\"gr1serial\", 0));\n            def tbPnrTvls = search.getListResultsByQueryBuilder(tbPnrTvl, \"tb_pnr_tvl\");\n            if (tbPnrTvls) {\n                def map1 = tbPnrTvls.max { a -> (a.createtime ?: -1) as long };\n                if (map1) {\n                    return map1.num_of_passenger ?: \"0\";\n                }else{\n                    return \"0\";\n                }\n            }\n        }\n    }\n    return \"\";",
+        "item": "LKSL"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content":  " def result=\"\";\n    def imms = imm.sort { b, a -> ((a.imm_date ?: -1) as long) <=> ((b.imm_date ?: -1) as long) };\n    if(imms){\n        for(i in imms){\n            def in_out_flag = i.in_out_flag?:\"\";\n            result+=in_out_flag;\n        }\n        if(result.contains(\"11\") || result.contains(\"22\")){\n            return \"0\";\n        }else {\n            return \"1\";\n        }\n    }\n    return \"\";",
+        "item": "CRPH"
+      },{
+        "version": "1.0",
+        "updateTime": "2019-02-16",
+        "content":  "if (!imm.isEmpty()) {\n        List<HashMap> ss = imm.sort { a, b -> ((a.imm_date ?: -1) as long) <=> ((b.imm_date ?: -1) as long) };\n        def imms = imm.sort { a, b -> ((a.imm_date ?: -1) as long) <=> ((b.imm_date ?: -1) as long) }\n        def inFlags = imms.findAll {a -> a.in_out_flag == \"2\"}\n        for (inFlag in inFlags) {\n            def index = ss.indexOf(inFlag);\n            if (ss.size() > index + 1) {\n                def obj = ss.get(index + 1);\n                if(obj.in_out_flag==\"1\"){\n                    def i_date = (inFlag.imm_date ?: -1) as long;\n                    def o_date = (obj.imm_date ?: -1) as long;\n                    if((o_date-i_date)<3){\n                        return \"1\";\n                    }else {\n                        return \"0\";\n                    }\n                }\n            }\n        }\n        return \"0\";\n    }\n    return \"\";",
+        "item": "IMM3BB"
+      }
+    ]
+  }
+
+
+
+

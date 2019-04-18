@@ -1,0 +1,137 @@
+package com.iapi.drools.rules;
+import java.util.Map
+
+// 内地重点人员 模型一 drl文件中的规则命名规范：模型编码+”_”+模型版本号+”_”+规则编号
+rule "NDZDRY_1_ENTER"
+//    agenda-group "enter_rule"
+//    auto-focus true
+    salience 10
+	when
+        // 进入规则
+        $map: Map($map.get("GJ") == "CHN" // C1 国籍等于CHN
+            && ($map.get("ZGMZ") =="05" // C2 旅客民族等于05
+                || (
+                    ["03","17","29","43","50","41","26","35","47"] contains $map.get("ZGMZ") // C4 旅客民族属于
+                    &&  ($map.get("HJD") == "65"  // C3 户籍省份等于65
+                    || $map.get("CHNID") matches "65.*" ) // C5 身份证号前两位等于65
+                    )
+                ||  $map.get("ZDGZ") == "1" //C6 重点关注库掌握人员等于1
+                //  下面两个 请 李志维 确认相关指标字段，指标的计算方式
+                //C7是否滞留境外未归维族人等于1
+               // || $map.get("") =="1"
+               //C8是否黑名单人员等于1
+                || $map.get("HMD") =="1" //C8
+            )
+        )
+    then
+        System.out.println($map.get("a"));
+        drools.setFocus("danger_rule");
+    end
+
+// 黑名单 {C1} AND {C8}
+rule "NDZDRY_1_HMD1"
+    agenda-group "danger_rule"
+	when
+        $map:Map(
+            $map.get("GJ") == "CHN" // C1
+            //  下面两个 请 李志维 确认相关指标字段，指标的计算方式
+            && $map.get("HMD") =="1" //C8是否黑名单人员等于1
+        )
+	then
+        System.out.println("C1 and C8 黑名单规则");
+	 end
+
+// 中国维族  {C1} AND {C2}
+rule "NDZDRY_1_ZGWZ"
+    agenda-group "danger_rule"
+	when
+        $map:Map(
+            $map.get("GJ") == "CHN" // C1
+          && $map.get("ZGMZ") =="05"// C2
+        )
+	then
+        System.out.println("C1 and c2 中国维族");
+	 end
+
+// 新疆少数民族  {C1} AND {C3} AND {C4}
+rule "NDZDRY_1_XJSSMZ"
+    agenda-group "danger_rule"
+	when
+        $map:Map(
+          $map.get("GJ") == "CHN" // C1
+          &&  $map.get("HJD") == "65"  // C3
+          && ["03","17","29","43","50","41","26","35","47"] contains $map.get("ZGMZ") // C4
+        )
+	then
+        System.out.println("C1 and c3 and c4  新疆少数民族");
+	 end
+
+// 	身份证65   {C1} AND {C5} AND {C4}
+rule "NDZDRY_1_SFZSZF65"
+    agenda-group "danger_rule"
+	when
+        $map:Map(
+          $map.get("GJ") == "CHN" // C1
+          && ["03","17","29","43","50","41","26","35","47"] contains $map.get("ZGMZ") // C4
+          && $map.get("CHNID") matches "65.*"  //C5
+        )
+	then
+        System.out.println("C1 and c4 and c5  身份证65");
+	 end
+
+// 重点关注  	{C1} AND {C6}
+rule "NDZDRY_1_ZDGZ"
+    agenda-group "danger_rule"
+	when
+        $map:Map(
+          $map.get("GJ") == "CHN" // C1国籍等于CHN
+          && $map.get("ZDGZ") == "1" //C6重点人员等于1
+        )
+	then
+        System.out.println("C1 and c6  重点关注");
+	 end
+
+// 境外滞留维族人{C1} AND {C7}
+rule "NDZDRY_1_JWZLWZR"
+    agenda-group "danger_rule"
+	when
+
+        $map:Map(
+          $map.get("GJ") == "CHN" // C1
+          //  下面两个 请 李志维 确认相关指标字段，指标的计算方式
+            &&toInt($map.get("ZCTS"))> 60//C7中国人出境天数大于60（是否滞留境外未归维族人等于1）
+
+        )
+	then
+
+        System.out.println("境外滞留维族人"+($map.get("ZCTS")==null));
+	 end
+
+function String hello(String name) {
+    return "Hello "+name+"!";
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

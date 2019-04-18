@@ -72,18 +72,3 @@ curator:
   # 系统环境变量规则
   prefixDir: drools.prefixDir
 
-
-
-nodeCode:
-  #黑名单
-  blacklist: 6CD6D731CD444A4A827CF3C505E69B4E
-  #发达国家
-  developed: 7E250BB178D440BEE0537A1210AC57A2
-  #重点上机场
-  focusAir: F63ADC307A9146C2B289CA9D43E889CD
-  #涉恐国家
-  terrorist: 5F1450C59B8E45DF9E701EFC8CDCD83D
-  #外籍华人姓氏
-  fgnChName: 9EB6AD8BA21543C6A0BA915E14B882B8
-  #新疆姓名
-  xjName: 35A07C29B7BD44788300CF056D869E2A

@@ -14,7 +14,7 @@
 #### Drools
 - 依赖
 ```
-        <drools.version>6.5.0.Final</drools.version>
+        <drools.version>7.10.0.Final</drools.version>
         <!--Drools-->
         <dependency>
             <groupId>org.kie</groupId>
@@ -67,12 +67,12 @@
         druid 相关配置
                 driver-class-name: oracle.jdbc.OracleDriver
                 # 基本属性
-                url: jdbc:oracle:thin:@//10.6.126.136:1521/B06DCAP
-                username: DCAP
-                password: dcap
-                url: jdbc:oracle:thin:@//192.168.3.160:1521/orcl
-                username: SZWG
-                password: oracle
+                url: jdbc: 
+                username:  
+                password:  
+                url: jdbc: 
+                username:  
+                password:  
                  #监控统计拦截的filters
                 filters: stat,wall,log4j
                 min-idle: 1

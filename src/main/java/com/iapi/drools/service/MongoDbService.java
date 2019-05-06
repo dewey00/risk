@@ -13,13 +13,5 @@ import org.bson.Document;
  */
 public interface MongoDbService {
     LogSearchResponse findByTimestampBetweenAndLevelString(String timestamp, String timestamp2, String levelString, int showCount, int currentPage);
-    /**
-    * @Author cheng
-    * @Description mongodb 状态
-    * @Date 14:55 2019/2/25
-    * @Param []
-    * @return org.bson.Document
-    *
-    */
-    Document getMongoDbStatus();
+
 }

@@ -168,7 +168,7 @@ public class RulesController {
         //风评标记
         responseMessage.setRisk_status("0");
         //请求json写入Mongodb
-        logger.info("api: riskEvaluation: " + data.replace("\t", "").replace("\n", "").replace(" ", ""));
+        logger.info("api: risk " + data.replace("\t", "").replace("\n", "").replace(" ", ""));
         //请求计时
         long start = System.currentTimeMillis();
         //请求json对象

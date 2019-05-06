@@ -29,13 +29,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class DataSystemWatcherController {
 
-    private Logger logger = LogManager.getLogger(DataSystemWatcherController.class);
+
 
     @Autowired
     private MongoDbService mongoDbService;
-    @Autowired
-    private ElasticSearchMonitor elasticSearchMonitor;
-
 
     @ApiOperation(value = "获取日志")
     @ApiImplicitParams({
@@ -55,19 +52,6 @@ public class DataSystemWatcherController {
         return new JsonResponse(logSearchResponse);
     }
 
-    @ApiOperation(value = "获取mongodb集群各节点服务状态")
-    @RequestMapping(value = "/mongodbStatus", method = RequestMethod.POST)
-    public JsonResponse mongodbStatus() {
-        return new JsonResponse("调用直接查询状态的接口，请勿再使用本平台");
-    }
-
-
-
-    @ApiOperation("获取Elasticsearch集群各节点服务状态")
-	@RequestMapping(value = "/getElasticsearchStatus", method = RequestMethod.POST)
-    public JsonResponse getElasticsearchStatus() {
-        return new JsonResponse("调用直接查询状态的接口，请勿再使用本平台");
-	}
 
 
 }

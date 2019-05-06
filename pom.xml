@@ -4,12 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.taiji</groupId>
-    <artifactId>iapi-drools</artifactId>
+    <groupId>com.mine</groupId>
+    <artifactId>risk</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>iapi-drools-en</name>
+    <name>risk</name>
     <description>风控规则引擎</description>
 
     <parent>
@@ -275,22 +275,7 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.31</version>
         </dependency>
-
-        <!--  cache -->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-cache</artifactId>-->
-<!--        </dependency>-->
-        <!--  redis -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
-
-
     </dependencies>
-
-
 
     <repositories>
         <repository>

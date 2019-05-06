@@ -5,7 +5,12 @@
 ## SpringBoot与Drools
 
 #### SpringBoot项目
-    略
+   安装使用
+   环境：1、mongodb
+        2、zookeeper
+        3、elasticsearch
+        4、java == 1.8+
+         
 #### Drools
 - 依赖
 ```

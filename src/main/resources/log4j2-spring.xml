@@ -33,11 +33,11 @@
         <!--&lt;!&ndash; 按大小划分 &ndash;&gt;-->
         <!--<SizeBasedTriggeringPolicy size="50 MB" />-->
         <!--</RollingFile>-->
-        <NoSql name="databaseAppender" bufferSize="10">
+<!--        <NoSql name="databaseAppender" bufferSize="10">-->
             <!-- <MongoDb3 databaseName="iapiData" collectionName="logRequest" server="192.168.3.155:27017"
                        username="loggingUser" password="abc123" />-->
-            <MongoDb databaseName="iapi1" collectionName="logRequest" server="192.168.3.155" port='27017'/>
-        </NoSql>
+<!--            <MongoDb databaseName="iapi1" collectionName="logRequest" server="192.168.3.155" port='27017'/>-->
+<!--        </NoSql>-->
     </Appenders>
     <Loggers>
         <!--<Logger name="org.apache.catalina.util.LifecycleBase" level="ERROR"/>-->
@@ -45,15 +45,15 @@
         <!--<Logger name="org.apache.tomcat.util.net.NioSelectorPool" level="WARN"/>-->
         <Logger name="org.springframework" level="INFO"/>
         <!--<Logger name="com.iapi.drools" level="INFO" additivity="false">-->
-        <Logger name="com.iapi.drools" level="INFO">
+<!--        <Logger name="com.iapi.drools" level="INFO">-->
             <!--输出目标为MongoDB-->
-            <appender-ref ref="databaseAppender"/>
-        </Logger>
-        <Root level="INFO">
-            <AppenderRef ref="console"/>
+<!--            <appender-ref ref="databaseAppender"/>-->
+<!--        </Logger>-->
+<!--        <Root level="INFO">-->
+<!--            <AppenderRef ref="console"/>-->
             <!--<AppenderRef ref="error"/>-->
             <!--<AppenderRef ref="rollingFile"/>-->
             <!--<AppenderRef ref="databaseAppender"/>-->
-        </Root>
+<!--        </Root>-->
     </Loggers>
 </configuration>

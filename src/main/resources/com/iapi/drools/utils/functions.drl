@@ -62,7 +62,7 @@ function int toInt(Object obj){
 }
 
 
-function boolean compareStrs(String[]  strs,String str2){
+function boolean compareStrs(String[] strs,String str2){
       for (int i = 0; i< strs.length ;i++) {
         if(str2.contains(strs[i])){
            return true;

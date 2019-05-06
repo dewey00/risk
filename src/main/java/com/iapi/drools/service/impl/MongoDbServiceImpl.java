@@ -70,15 +70,6 @@ public class MongoDbServiceImpl implements MongoDbService {
         return logSearchResponse;
     }
 
-    @Override
-    public Document getMongoDbStatus() {
-        MongodbWatcher mongodbWatcher = new MongodbWatcher(mongoClient);
-        Document document = mongodbWatcher.getDb("admin").runCommand(new Document("replSetGetStatus", 1));
-        Document document2 = mongodbWatcher.getServerStatus();
-        document2.append("replStatus",document);
-        return  document2;
-
-    }
 
 
 
